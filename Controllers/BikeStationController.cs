@@ -19,8 +19,8 @@ namespace BikeWatcher.Controllers
         public async Task<IActionResult> Index()
         {
             var stations = await ProcessRepositories();
-            ViewBag.allstations = stations;
-            return View();
+            ViewBag.allstations = stations.OrderBy( x => x.name);
+            return View("BikeStations");
         }
 
     private static async Task<List<BikeStation>> ProcessRepositories()
