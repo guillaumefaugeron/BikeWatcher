@@ -54,17 +54,23 @@
         // Fonction d'initialisation de la carte
 
         function initMap() {
-            var villes = {
+            var villes = [
                 
                 @foreach (var station in stations)
                 {
                     <text>
-                        " @station.name ": { "lat": @station.lat, "lon": @station.lng },
+                        {
+                            "address": "@station.address",
+                            "lat": "@station.lat",
+                            "lon": "@station.lng",
+                            "info": "@station.available_bikes"
+                        },
 
                     </text>
 
-                }
-            };
+                
+            }];
+            console.log(villes);
             // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
             macarte = L.map('map').setView([lat, lon], 11);
             // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
@@ -78,7 +84,7 @@
             // Nous parcourons la liste des villes
             for (ville in villes) {
                 var marker = L.marker([villes[ville].lat, villes[ville].lon]).addTo(macarte);
-                console.log(ville);
+                marker.bindPopup("<p> nombre de velo : "+ villes[ville].info + "</p> <p> Address : " + villes[ville].address + "</p>");
             }
         }
 
