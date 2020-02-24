@@ -21,9 +21,27 @@ namespace BikeWatcher.Controllers
             var stations = await ProcessRepositories();
             ViewBag.allstations = stations.OrderBy( x => x.name);
             return View("BikeStations");
+
+        }
+        public async Task<IActionResult> carte()
+        {
+            var stations = await ProcessRepositories();
+            ViewBag.allstations = stations;
+            return View("carte");
+
         }
 
-    private static async Task<List<BikeStation>> ProcessRepositories()
+
+
+
+
+
+
+
+
+
+
+        private static async Task<List<BikeStation>> ProcessRepositories()
     {
 
     client.DefaultRequestHeaders.Accept.Clear();
