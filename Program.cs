@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.Json;
+using BikeWatcher.Models;
+
 
 namespace BikeWatcher
 {
@@ -22,5 +27,6 @@ namespace BikeWatcher
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
     }
 }

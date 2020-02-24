@@ -19,8 +19,9 @@ namespace BikeWatcher.Controllers
         }
 
         public IActionResult Index()
-        {
-            return View();
+        {   
+
+            return View(new BikeStationController());
         }
 
         public IActionResult Privacy()
