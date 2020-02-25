@@ -24,10 +24,20 @@ namespace BikeWatcher.Models
             this.gid = bikeStationBdx.id.ToString();
             this.lat = bikeStationBdx.latitude;
             this.lng = bikeStationBdx.longitude;
+            this.address = "Pas d'adresse dispo";
             this.name = bikeStationBdx.name;
-            this.status = bikeStationBdx.is_online.ToString();
             this.available_bikes = bikeStationBdx.bike_count.ToString();
             this.bike_stands = bikeStationBdx.slot_count.ToString();
+
+            if (bikeStationBdx.is_online)
+            {
+                this.status = "OPEN";
+            }
+            else
+            {
+                this.status = "CLOSE";
+
+            }
 
 
         }
