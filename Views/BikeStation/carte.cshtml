@@ -63,7 +63,8 @@
                             "address": "@station.address",
                             "lat": "@station.lat",
                             "lon": "@station.lng",
-                            "info": "@station.available_bikes"
+                            "velo_dispo": "@station.available_bikes",
+                            "id": @station.number,
                         },
 
                     </text>
@@ -84,7 +85,7 @@
             // Nous parcourons la liste des villes
             for (ville in villes) {
                 var marker = L.marker([villes[ville].lat, villes[ville].lon]).addTo(macarte);
-                marker.bindPopup("<p> nombre de velo : "+ villes[ville].info + "</p> <p> Address : " + villes[ville].address + "</p>");
+                marker.bindPopup("<p> nombre de velo : "+ villes[ville].velo_dispo + "</p> <p> Addresse : " + villes[ville].address + " </p> <p> Place dispo : "+ villes[ville].id + "</p>");
             }
         }
 
