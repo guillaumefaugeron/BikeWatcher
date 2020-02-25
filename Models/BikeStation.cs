@@ -8,8 +8,34 @@ using System.Text.Json;
 
 namespace BikeWatcher.Models
 {
+
+
+
     public class BikeStation
     {
+
+        public BikeStation()
+        {
+
+        }
+
+        public BikeStation(BikeStationBdx bikeStationBdx)
+        {
+            this.gid = bikeStationBdx.id.ToString();
+            this.lat = bikeStationBdx.latitude;
+            this.lng = bikeStationBdx.longitude;
+            this.name = bikeStationBdx.name;
+            this.status = bikeStationBdx.is_online.ToString();
+            this.available_bikes = bikeStationBdx.bike_count.ToString();
+            this.bike_stands = bikeStationBdx.slot_count.ToString();
+
+
+        }
+
+
+
+
+
         public string number { get; set; }
         public string pole { get; set; }
         public string available_bikes { get; set; }

@@ -27,10 +27,19 @@ namespace BikeWatcher.Controllers
         private static readonly HttpClient client = new HttpClient();
 
         // GET: /<controller>/
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String city ="lyon")
         {
-            var stations = await ProcessRepositories();
-            ViewBag.allstations = stations.OrderBy(x => x.name);
+            if (city == "lyon")
+            {
+                var stations = await ProcessRepositories();
+                ViewBag.allstations = stations.OrderBy(x => x.name);
+            }
+            else if (city == "bordeaux")
+            {
+                var stations = await ProcessRepositoriesBdx();
+                ViewBag.allstations = stations.OrderBy(x => x.name);
+
+            }
             return View("BikeStations");
 
         }
@@ -106,6 +115,29 @@ namespace BikeWatcher.Controllers
             return bikeStations.values;
 
         }
+
+        private static async Task<List<BikeStation>> ProcessRepositoriesBdx()
+        {
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+
+            var streamTask = client.GetStreamAsync("https://api.alexandredubois.com/vcub-backend/vcub.php");
+            var bikeStationsbdx = await JsonSerializer.DeserializeAsync<List<BikeStationBdx>>(await streamTask);
+            var listBikestation = new List<BikeStation>();
+            foreach(var bikeStation in bikeStationsbdx)
+            {
+                var bikeStations = new BikeStation(bikeStation);
+                listBikestation.Add(bikeStations);
+
+            }
+            return listBikestation;
+
+        }
+
+
+
+
     }
 
 }

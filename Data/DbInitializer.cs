@@ -42,7 +42,7 @@ namespace BikeWatcher.Data
 
             var signVelos = new SignVelo[]
             {
-                new SignVelo{IdVVelo = 125,Commentaire = "ca marche0",Email = "gui@36.com"},
+                new SignVelo{IdVelo = 125,Commentaire = "ca marche0",Email = "gui@36.com"},
 
             };
             foreach (SignVelo f in signVelos)
