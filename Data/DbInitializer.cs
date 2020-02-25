@@ -17,13 +17,13 @@ namespace BikeWatcher.Data
                 return;   // DB has been seeded
             }
 
-            var favorises = new Favoris[]
+            var favories = new Favoris[]
             {
             new Favoris{IDStation=16005},
             new Favoris{IDStation=16045}
 
             };
-            foreach (Favoris f  in favorises)
+            foreach (Favoris f  in favories)
             {
                 context.Favoris.Add(f);
             }

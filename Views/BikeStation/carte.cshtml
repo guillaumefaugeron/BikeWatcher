@@ -64,7 +64,7 @@
                             "lat": "@station.lat",
                             "lon": "@station.lng",
                             "velo_dispo": "@station.available_bikes",
-                            "id": @station.number,
+                            "id": @station.gid,
                         },
 
                     </text>
@@ -84,8 +84,9 @@
                 }).addTo(macarte);
             // Nous parcourons la liste des villes
             for (ville in villes) {
+                console.log();
                 var marker = L.marker([villes[ville].lat, villes[ville].lon]).addTo(macarte);
-                marker.bindPopup("<p> nombre de velo : "+ villes[ville].velo_dispo + "</p> <p> Addresse : " + villes[ville].address + " </p> <p> Place dispo : "+ villes[ville].id + "</p>");
+                marker.bindPopup("<p> nombre de velo : "+ villes[ville].velo_dispo + "</p> <p> Addresse : " + villes[ville].address + " </p> "+"<a href="+window.location.origin+"/BikeStation/AddToFav/"+villes[ville].id+">Ajouter aux favoris</a>");
             }
         }
 
