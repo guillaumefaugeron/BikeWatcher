@@ -62,6 +62,39 @@ namespace BikeWatcher.Controllers
 
         }
 
+
+
+        public IActionResult SignVelo()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> SignVelo([Bind("IDVelo","Commentaire", "Email")] Models.SignVelo signVelo)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(signVelo);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                                             "Try again, and if the problem persists " +
+                                             "see your system administrator.");
+            }
+            return View(signVelo);
+        }
+
+
+
+
+
         private static async Task<List<BikeStation>> ProcessRepositories()
         {
 
