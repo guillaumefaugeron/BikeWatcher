@@ -27,26 +27,19 @@ namespace BikeWatcher.Controllers
         private static readonly HttpClient client = new HttpClient();
 
         // GET: /<controller>/
-        public async Task<IActionResult> Index(String city ="lyon")
+        public async Task<IActionResult> Index(String city = "lyon")
         {
-            if (city == "lyon")
-            {
-                var stations = await ProcessRepositories();
-                ViewBag.allstations = stations.OrderBy(x => x.name);
-            }
-            else if (city == "bordeaux")
-            {
-                var stations = await ProcessRepositoriesBdx();
-                ViewBag.allstations = stations.OrderBy(x => x.name);
 
-            }
+            var stations = await ProcessRepositories(city);
+            ViewBag.allstations = stations.OrderBy(x => x.name);
+
             return View("BikeStations");
 
         }
 
-        public async Task<IActionResult> carte()
+        public async Task<IActionResult> carte(String city = "lyon")
         {
-            var stations = await ProcessRepositories();
+            var stations = await ProcessRepositories(city);
             ViewBag.allstations = stations;
             return View();
 
@@ -70,6 +63,15 @@ namespace BikeWatcher.Controllers
             return NotFound();
 
         }
+        public async Task<IActionResult> DelFav(int id)
+        {
+             var bikeToDel = _context.Favoris.Find(id);
+             _context.Favoris.Remove(bikeToDel);
+             await _context.SaveChangesAsync();
+             return RedirectToAction(nameof(Index));
+            
+        }
+
 
 
 
@@ -77,9 +79,9 @@ namespace BikeWatcher.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> SignVelo([Bind("IDVelo","Commentaire", "Email")] Models.SignVelo signVelo)
+        public async Task<IActionResult> SignVelo([Bind("IDVelo", "Commentaire", "Email")] Models.SignVelo signVelo)
         {
             try
             {
@@ -104,43 +106,38 @@ namespace BikeWatcher.Controllers
 
 
 
-        private static async Task<List<BikeStation>> ProcessRepositories()
+        private static async Task<List<BikeStation>> ProcessRepositories(String city)
         {
+
 
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
-
-            var streamTask = client.GetStreamAsync("https://download.data.grandlyon.com/ws/rdata/jcd_jcdecaux.jcdvelov/all.json");
-            var bikeStations = await JsonSerializer.DeserializeAsync<RootObject>(await streamTask);
-            return bikeStations.values;
-
-        }
-
-        private static async Task<List<BikeStation>> ProcessRepositoriesBdx()
-        {
-
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
-
-            var streamTask = client.GetStreamAsync("https://api.alexandredubois.com/vcub-backend/vcub.php");
-            var bikeStationsbdx = await JsonSerializer.DeserializeAsync<List<BikeStationBdx>>(await streamTask);
-            var listBikestation = new List<BikeStation>();
-            foreach(var bikeStation in bikeStationsbdx)
+            if (city.ToLower() == "bordeaux")
             {
-                var bikeStations = new BikeStation(bikeStation);
-                listBikestation.Add(bikeStations);
+                var streamTask = client.GetStreamAsync("https://api.alexandredubois.com/vcub-backend/vcub.php");
+                var bikeStationsbdx = await JsonSerializer.DeserializeAsync<List<BikeStationBdx>>(await streamTask);
+                var listBikestation = new List<BikeStation>();
+                foreach (var bikeStation in bikeStationsbdx)
+                {
+                    var bikeStations = new BikeStation(bikeStation);
+                    listBikestation.Add(bikeStations);
+
+                }
+                return listBikestation;
+            }
+            else
+            {
+                var streamTask = client.GetStreamAsync("https://download.data.grandlyon.com/ws/rdata/jcd_jcdecaux.jcdvelov/all.json");
+                var bikeStations = await JsonSerializer.DeserializeAsync<RootObject>(await streamTask);
+                return bikeStations.values;
+
 
             }
-            return listBikestation;
 
         }
-
-
-
-
     }
-
 }
+
 
 
 

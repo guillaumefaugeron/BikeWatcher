@@ -17,6 +17,8 @@
     <title>Carte</title>
 </head>
 <body>
+    <button type="button" class="btn btn-light">@Html.ActionLink("Bordeaux", "carte", new { city = "Bordeaux" })</button>
+    <button type="button" class="btn btn-light">@Html.ActionLink("Lyon", "carte", new { city = "lyon" })</button>
     <div id="map">
         <!-- Ici s'affichera la carte -->
     </div>
@@ -55,7 +57,7 @@
 
         function initMap() {
             var villes = [
-                
+
                 @foreach (var station in stations)
                 {
                     <text>
@@ -69,7 +71,7 @@
 
                     </text>
 
-                
+
             }];
             console.log(villes);
             // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"

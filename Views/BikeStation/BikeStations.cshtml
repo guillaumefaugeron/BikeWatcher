@@ -4,24 +4,25 @@
 }
 
 
+<button type="button" class="btn btn-light">@Html.ActionLink("Bordeaux", "index", new { city = "Bordeaux" })</button>
+<button  type="button" class="btn btn-light">@Html.ActionLink("Lyon", "index", new { city = "lyon" })</button>
+<table class="table">
 
-    <table class="table">
-
-        <thead>
-            <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Adresse</th>
-                <th scope="col">Nombre de velo disponible</th>
-                <th scope="col">Nombre d'emplacement disponible</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
+    <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Adresse</th>
+            <th scope="col">Nombre de velo disponible</th>
+            <th scope="col">Nombre d'emplacement disponible</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
 
 
 
-            @foreach (var station in stations)
-            {
+        @foreach (var station in stations)
+        {
             <tr>
                 <td>@station.name</td>
                 <td>@station.address</td>
@@ -31,6 +32,6 @@
                 <td>@station.status</td>
             </tr>
 
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
