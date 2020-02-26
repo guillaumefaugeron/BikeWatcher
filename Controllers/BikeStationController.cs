@@ -81,6 +81,7 @@ namespace BikeWatcher.Controllers
         }
 
         [HttpPost]
+
         public async Task<IActionResult> SignVelo([Bind("IDVelo", "Commentaire", "Email")] Models.SignVelo signVelo)
         {
             try
